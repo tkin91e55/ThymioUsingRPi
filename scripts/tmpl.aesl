@@ -1,0 +1,172 @@
+<!DOCTYPE aesl-source>
+<network>
+
+
+<!--list of global events-->
+<event size="1" name="pair_run"/>
+<event size="0" name="forward"/>
+<event size="0" name="backward"/>
+<event size="0" name="left"/>
+<event size="0" name="right"/>
+<event size="0" name="stop"/>
+
+
+<!--list of constants-->
+
+
+<!--show keywords state-->
+<keywords flag="true"/>
+
+
+<!--node thymio-II-->
+<node nodeId="1096" name="thymio-II">var turnleft = 0
+var turnright = 0
+var yellowl = 0
+var yellowr = 0
+
+# reset outputs
+call sound.system(-1)
+call leds.top(0,0,0)
+call leds.bottom.left(0,0,0)
+call leds.bottom.right(0,0,0)
+call leds.circle(0,0,0,0,0,0,0,0)
+call leds.top(32,32,0)
+call leds.bottom.left(32,32,0)
+call leds.bottom.right(32,32,0)
+timer.period[0] = 500
+
+onevent buttons         # commande avec boutons
+    if button.forward == 1 then
+        motor.left.target = -500
+        motor.right.target = -500
+        turnleft=0
+        turnright=0
+    end
+    if button.backward == 1 then
+        motor.left.target = 500
+        motor.right.target = 500
+        turnleft=1
+        turnright=1
+    end
+    if button.left == 1 then
+        motor.left.target = 500
+        motor.right.target = -500
+        turnleft=1
+        turnright=0
+    end
+    if button.right == 1 then
+        motor.left.target = -500
+        motor.right.target = 500
+        turnleft=0
+        turnright=1
+    end
+    if button.center == 1 then
+        motor.left.target = 0
+        motor.right.target = 0
+        turnleft=0
+        turnright=0
+    end
+
+onevent rc5        # commande avec télécommande IR
+    if rc5.command == 32 then
+        motor.left.target = -500
+        motor.right.target = -500
+        turnleft=0
+        turnright=0
+    end
+    if rc5.command == 33 then
+        motor.left.target = 500
+        motor.right.target = 500
+        turnleft=1
+        turnright=1
+    end
+    if rc5.command == 17 then
+        motor.left.target = 500
+        motor.right.target = -500
+        turnleft=1
+        turnright=0
+    end
+    if rc5.command == 16 then
+        motor.left.target = -500
+        motor.right.target = 500
+        turnleft=0
+        turnright=1
+    end
+    if rc5.command == 13 then
+        motor.left.target = 0
+        motor.right.target = 0
+        turnleft=0
+        turnright=0
+    end
+
+# commande avec évènements
+
+onevent forward
+        motor.left.target = -500
+        motor.right.target = -500
+        turnleft=0
+        turnright=0
+
+onevent backward
+        motor.left.target = 500
+        motor.right.target = 500
+        turnleft=1
+        turnright=1
+
+onevent left
+        motor.left.target = 500
+        motor.right.target = -500
+        turnleft=1
+        turnright=0
+
+onevent right
+        motor.left.target = -500
+        motor.right.target = 500
+        turnleft=0
+        turnright=1
+
+onevent stop
+        motor.left.target = 0
+        motor.right.target = 0
+        turnleft=0
+        turnright=0
+
+# clignotement à droite, gauche et arrière:
+
+onevent timer0
+    if turnleft==1 then
+        if yellowl==0 then
+            yellowl=1
+            call leds.bottom.left(32,32,0)
+        else
+            yellowl=0
+            call leds.bottom.left(32,0,0)            
+        end
+    else
+        call leds.bottom.left(32,32,0)
+    end
+
+    if turnright==1 then
+        if yellowr==0 then
+            yellowr=1
+            call leds.bottom.right(32,32,0)
+        else
+            yellowr=0
+            call leds.bottom.right(32,0,0)            
+        end
+    else
+        call leds.bottom.right(32,32,0)
+    end
+
+# évènements qui permettent d'exporter des valeurs:
+
+#onevent acc
+    #emit accelerometer(acc)
+
+#onevent prox
+    #emit light prox.ground.ambiant[0]
+    #emit proxfront prox.horizontal
+</node>
+
+
+</network>
