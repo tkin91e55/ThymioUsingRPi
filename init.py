@@ -4,13 +4,14 @@ import glib
 import gobject
 import sys
 #src and ref from: https://www.thymio.org/en:asebamedulla
+#API of asebaNetworkObject, medulla: https://github.com/aseba-community/aseba/blob/master/switches/medulla/medulla.cpp
 
 class ThymioController(object):
 	def __init__(self, filename):
 		#members
 		self.asebaNetwork=None
 		self.loop=None
-		
+
 		# init the main loop
 		dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
 		
@@ -39,6 +40,22 @@ class ThymioController(object):
 		# there was an error on D-Bus, stop loop
 		print('dbus error: %s' % str(e))
 		self.loop.quit()
+
+	#convenient funcs:: begin
+	# TODO: to be in behavior programming, organize some freqent attr
+	defaultNodeName = "thymio-II"
+
+	def GetVar(self, attrStr):
+		return self.asebaNetwork.GetVariable(defaultNodeName,attrStr)
+
+	def SetVar(self, attrStr, attrValArray):
+		self.asebaNetwork.SetVariable(defaultNodeName,attrStr,attrValArray)
+
+	def TrigEvent(self, evt, evtArgs):
+		self.asebaNetwork.SendEventName(evt,evtArgs,
+			reply_handler=self.dbusReply,
+			error_handler=self.dbusError)
+	#convenient funcs:: end
 
 def main():
 	# check command-line arguments
