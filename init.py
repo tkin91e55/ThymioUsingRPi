@@ -21,7 +21,7 @@ class ThymioController(object):
 			dbus_interface='ch.epfl.mobots.AsebaNetwork')
 		
 		# load the .asel file
-		self.asebaNetwork.LoadScripts(sys.argv[1],
+		self.asebaNetwork.LoadScripts(filename,
 			reply_handler=self.dbusReply,
 			error_handler=self.dbusError
 		)
