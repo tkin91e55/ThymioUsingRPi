@@ -45,11 +45,14 @@ class ThymioController(object):
 	# TODO: to be in behavior programming, organize some freqent attr
 	defaultNodeName = "thymio-II"
 
+	def TestGlo():
+		print defaultNodeName
+
 	def GetVar(self, attrStr):
-		return self.asebaNetwork.GetVariable(defaultNodeName,attrStr)
+		return self.asebaNetwork.GetVariable(self.defaultNodeName,attrStr)
 
 	def SetVar(self, attrStr, attrValArray):
-		self.asebaNetwork.SetVariable(defaultNodeName,attrStr,attrValArray)
+		self.asebaNetwork.SetVariable(self.defaultNodeName,attrStr,attrValArray)
 
 	def TrigEvent(self, evt, evtArgs):
 		self.asebaNetwork.SendEventName(evt,evtArgs,
