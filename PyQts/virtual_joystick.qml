@@ -6,7 +6,7 @@ Rectangle {
     height: joystick.height
     color: "transparent"
 
-    //signal joystick_moved(double x, double y);
+    signal joystick_moved(double x, double y);
 
     Image {
         id: joystick
@@ -17,7 +17,7 @@ Rectangle {
         source: "background.png"
         anchors.centerIn: parent
 
-        /*ParallelAnimation {
+        ParallelAnimation {
             id: returnAnimation
             NumberAnimation { target: thumb.anchors; property: "horizontalCenterOffset";
                 to: 0; duration: 200; easing.type: Easing.OutSine }
@@ -74,7 +74,7 @@ Rectangle {
                     );
                 }
             }
-        }*/
+        }
 
         Image {
             id: thumb

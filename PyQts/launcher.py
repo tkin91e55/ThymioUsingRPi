@@ -12,6 +12,15 @@ class MainWindow(QtGui.QMainWindow):
 
         #TODO define class instance variables here
 
+        #TODO use QtDeclarative
+        #view->setSource(QUrl("qrc:/res/virtual_joystick.qml"));
+
+        #TODO sigal & slot binding of joystick_moved()
+
+    #TODO callback/slot
+    def joystick_moved(x,y):
+    	print 'joystick_moved() slot called'
+
 if __name__ == '__main__':
 
     import sys
