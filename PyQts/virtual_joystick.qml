@@ -6,7 +6,7 @@ Rectangle {
     height: joystick.height
     color: "transparent"
 
-    signal joystick_moved(double x, double y);
+    //signal joystick_moved(double x, double y);
 
     Image {
         id: joystick
