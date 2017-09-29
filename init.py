@@ -27,6 +27,7 @@ class ThymioController(object):
 			error_handler=self.dbusError
 		)
 	
+	#TODO optimize dbus using: http://rocksaying.tw/archives/15534603.html
 	def run(self):
 		# run event loop
 		self.loop = gobject.MainLoop()
