@@ -45,12 +45,7 @@ from init import ThymioController
 
 if __name__ == '__main__':
     ctlr = ThymioController("scripts/tmpl.aesl")
-
-
-#ctlr need to ignite with run(), so that Evt trigger have stream open, directly setVar() will ignite. this is variable dependent, kind of control right taken
-#TODO this need to be made into thread
-#c.run()
-
+    forward(ctlr,0)
 
 
 

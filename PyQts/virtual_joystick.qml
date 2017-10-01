@@ -6,7 +6,7 @@ Rectangle {
     height: joystick.height
     color: "transparent"
 
-    //signal joystick_moved(double x, double y);
+    signal joystick_moved(double x, double y);
 
     Image {
         id: joystick
@@ -47,6 +47,7 @@ Rectangle {
             onReleased: {
                 returnAnimation.restart()
                 joystick_moved(0, 0);
+                testPlayingChanged.emit()
             }
 
             onPositionChanged: {
