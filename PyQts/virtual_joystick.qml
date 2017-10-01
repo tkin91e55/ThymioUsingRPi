@@ -47,7 +47,6 @@ Rectangle {
             onReleased: {
                 returnAnimation.restart()
                 joystick_moved(0, 0);
-                testPlayingChanged.emit()
             }
 
             onPositionChanged: {
