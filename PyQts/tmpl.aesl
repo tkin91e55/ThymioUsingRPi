@@ -37,14 +37,14 @@ timer.period[0] = 500
 
 onevent buttons         # commande avec boutons
     if button.forward == 1 then
-        motor.left.target = -500
-        motor.right.target = -500
+        motor.left.target = 500
+        motor.right.target = 500
         turnleft=0
         turnright=0
     end
     if button.backward == 1 then
-        motor.left.target = 500
-        motor.right.target = 500
+        motor.left.target = -500
+        motor.right.target = -500
         turnleft=1
         turnright=1
     end
