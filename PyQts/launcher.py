@@ -4,6 +4,7 @@
 import sip
 sip.setapi('QVariant', 2)
 
+import math
 from PyQt4 import QtCore, QtGui, QtDeclarative
 from model import ThymioController
 
@@ -13,16 +14,43 @@ class ThymioImplQObj(QtCore.QObject):
         super(ThymioImplQObj, self).__init__()
 
         self.thymioCltr = ThymioController("/home/tkingless/Development/Github/ThymioOfficeAssistant/PyQts/tmpl.aesl")
+        self.cur_leftSpd = 0
+        self.cur_rightSpd = 0
+        self.turnleft = 0
+        self.turnright = 0
 
     #@QtCore.pyqtSlot(float,float)
     def on_joystick_moved(self,x,y):
     	#print 'joystick_moved() x: {0}, y:{1}'.format(x,y)
         [leftSpd, rightSpd] = self.transformToMotorsSpd(x,y)
-        self.thymioCltr.SetVar("motor.left.target",[leftSpd])
-        self.thymioCltr.SetVar("motor.right.target",[rightSpd])
+
+        if math.fabs(self.cur_leftSpd - leftSpd) >= 50 :
+            self.thymioCltr.SetVar("motor.left.target",[leftSpd])
+            self.cur_leftSpd = leftSpd
+
+        if math.fabs(self.cur_rightSpd - rightSpd) >= 50:
+            self.thymioCltr.SetVar("motor.right.target",[rightSpd])
+            self.cur_rightSpd = rightSpd
+        
+        if leftSpd > 200:
+            if self.turnright == 0:
+                self.thymioCltr.SetVar("turnright",[1])
+                self.turnright = 1
+        else:
+            if self.turnright == 1:
+                self.thymioCltr.SetVar("turnright",[0])
+                self.turnright = 0
+
+        if rightSpd > 200:
+            if self.turnleft == 0:
+                self.thymioCltr.SetVar("turnleft",[1])
+                self.turnleft = 1
+        else:
+            if self.turnleft == 1:
+                self.thymioCltr.SetVar("turnleft",[0])
+                self.turnleft = 0
 
     def transformToMotorsSpd(self,x,y):
-        import math
         mag = math.sqrt(x*x+y*y)
         leftMotorSpd = 500 * mag * (y + x)
         rightMotorSpd = 500 * mag * (y - x)

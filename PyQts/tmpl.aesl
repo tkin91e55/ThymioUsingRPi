@@ -19,7 +19,8 @@
 
 
 <!--node thymio-II-->
-<node nodeId="1096" name="thymio-II">var turnleft = 0
+<node nodeId="1096" name="thymio-II">
+var turnleft = 0
 var turnright = 0
 var yellowl = 0
 var yellowr = 0
