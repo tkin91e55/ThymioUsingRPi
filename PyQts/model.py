@@ -1,19 +1,24 @@
 import dbus
+import dbus.service
 import dbus.mainloop.glib
 import glib
 import gobject
 import sys
+import threading
 #src and ref from: https://www.thymio.org/en:asebamedulla
 #API of asebaNetworkObject, medulla: https://github.com/aseba-community/aseba/blob/master/switches/medulla/medulla.cpp
 
-#TODO impl threading
-class ThymioController(object):
+#impl threading: https://github.com/stylesuxx/python-dbus-examples
+#ref https://lists.freedesktop.org/archives/dbus/2008-December/010789.html
+class ThymioController(dbus.service.Object,threading.Thread):
 	def __init__(self, filename):
 		#members
 		self.asebaNetwork=None
 		self.loop=None
 
 		# init the main loop
+		gobject.threads_init()
+		dbus.mainloop.glib.threads_init()
 		dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
 		
 		# get stub of the Aseba network
@@ -27,8 +32,10 @@ class ThymioController(object):
 			reply_handler=self.dbusReply,
 			error_handler=self.dbusError
 		)
+
+		threading.Thread.__init__(self)
+		self.setDaemon(True)
 	
-	#TODO optimize dbus using: http://rocksaying.tw/archives/15534603.html
 	def run(self):
 		# run event loop
 		self.loop = gobject.MainLoop()

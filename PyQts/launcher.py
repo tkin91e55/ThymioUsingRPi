@@ -19,6 +19,8 @@ class ThymioImplQObj(QtCore.QObject):
         self.turnleft = 0
         self.turnright = 0
 
+        self.thymioCltr.start()
+
     #@QtCore.pyqtSlot(float,float)
     def on_joystick_moved(self,x,y):
     	#print 'joystick_moved() x: {0}, y:{1}'.format(x,y)
@@ -78,7 +80,5 @@ if __name__ == '__main__':
 
     canvas.setGeometry(QtCore.QRect(100, 100, 450, 450)) #TODO get the property from qml, the root.width & root.height
     canvas.show()
-
-
 
     sys.exit(app.exec_())
